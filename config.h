@@ -49,6 +49,15 @@ static const Rule rules[] = {
 	{ NULL,       NULL,   "scratchpad2",   	    0,            1,	1, 't' },
 
 };
+
+
+/* window swallowing */
+static const int swaldecay = 3;
+static const int swalretroactive = 1;
+static const char swalsymbol[] = "👅";
+
+
+
 /* layout(s)
 */
 static const float mfact     = 0.50; /* factor of master area size [0.05..0.95] */
@@ -82,7 +91,6 @@ static const char *termcmd[]  = { "st", NULL };
 
 /*First arg only serves to match against key in rules*/
 
-#include "shiftview.c"
 
 /*First arg only serves to match against key in rules*/
 static const char *scratchpadcmd[] = {"s", "st", "-t", "scratchpad", NULL};
@@ -96,6 +104,7 @@ static Key keys[] = {
 	{ MODKEY,            		XK_equal,  	   togglescratch,  {.v = scratchpad2cmd} },
 	{ MODKEY, 			XK_f,      fullscreen,     {0} },
 	{ MODKEY,                       XK_s,      togglesticky,   {0} },
+	{ MODKEY|Mod5Mask,                       XK_u,      swalstopsel,    {0} },
 	{ MODKEY,                       XK_o,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -123,8 +132,8 @@ static Key keys[] = {
 	{ MODKEY|Mod5Mask,             XK_u,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|Mod5Mask,             XK_0,      tag,            {.ui = ~0 } },
-	{ MODKEY|Mod5Mask,             XK_k,	shiftview,  	   {.i = +1 } },
-	{ MODKEY|Mod5Mask,             XK_j,	shiftview,	   {.i = -1 } },
+	{ MODKEY|Mod5Mask,             XK_k,	shiftviewclients,		{.i = +1 } },
+	{ MODKEY|Mod5Mask,             XK_j,	shiftviewclients,		{.i = -1 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|Mod5Mask,             XK_comma,  tagmon,         {.i = -1 } },
@@ -155,6 +164,7 @@ static Button buttons[] = {
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button1,        resizemouse,    {0} },
+	{ ClkClientWin,         MODKEY|ShiftMask, Button1,      swalmouse,      {0} },
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
